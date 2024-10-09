@@ -14,10 +14,41 @@ f = open('card.json', 'r')
 CONTAINER = json.load(f)
 
 def start(request):
-    return render(request, 'login.html')
+    return render(request, 'start.html')
 
-def login(request):
-    return render(request, 'signup.html')
+def signup(request):
+    return render(request, 'registration/signup.html')
+
+def create_user(request):
+    if request.method == 'POST':
+        new_user = User(username=request.POST['username'], email = request.POST['email'])
+        new_user.set_password(request.POST['password'])
+        try: 
+            new_user.save()
+            
+            print("Saved new User")
+            # keep user logged in after signup 
+            authenticated_user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+            if authenticated_user is not None:
+                login(request, authenticated_user)
+                print("User is authenticated")
+                return redirect("default")
+        except:
+            # no reverse match found-error 
+            return redirect("signup", sign_up_failed_message="Wrong parameters, could not create user")
+        return redirect("login")
+
+
+# login via Email does not work yet 
+def process_login(request):
+    if request.method == 'POST':
+        authenticated_user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+        if authenticated_user is not None: 
+            login(request, authenticated_user)
+            return redirect("default")
+    return HttpResponse("wrong")
+
+
 
 def default(request):
     global CONTAINER
@@ -27,9 +58,11 @@ def default(request):
 
         add_playlist(request)
         return HttpResponse("")
-
+    if not request.user.is_authenticated: 
+        return redirect("start")
     song = 'kSFJGEHDCrQ'
     return render(request, 'player.html',{'CONTAINER':CONTAINER, 'song':song})
+
 
 
 

@@ -32,9 +32,11 @@
             <a href="" target="_blank">
             </a>
         </div>
-
+    {% if sign_up_failed_message %}
+    	<p>sign_up_failed_message</p>
+    {% endif %}
     <div class="signup_body">
-        <form class="login_form" method='POST' enctype="multipart/form-data">
+        <form class="login_form" method='POST' enctype="multipart/form-data" action="signup/create-user">
             {% csrf_token %}
 
             <span class='label signup-title center-align'>Sign up for free to start listening.</span>
@@ -70,7 +72,8 @@
 
             <button class='btn btn_log_in' type="submit">Sign up</button>
             <div class="divider"></div>
-            <p class='label center-align'>Already have an account? <a href="/login">Log in</a>.</p>
+            <p class='label center-align'>Already have an account?</p> 
+            <a class='btn btn_sign_up' href="/login">Login here</a>
         </form>
     </div>
 
