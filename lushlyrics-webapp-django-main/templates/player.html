@@ -53,11 +53,17 @@
                 </svg>
                 <a href="/playlist" class='label'>Your Library</a>
             </div>
+            <div class="options create playlist">
+                <svg viewBox="0 0 512 512" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                    <path class='ops'
+                        d="M291.301 81.778l166.349 373.587-19.301 8.635-166.349-373.587zM64 463.746v-384h21.334v384h-21.334zM192 463.746v-384h21.334v384h-21.334z"
+                        fill="grey"></path>
+                </svg>
+                <a href="/playlist" class='label'>Add a playlist</a>
+            </div>
+
 
             <!-- brk change -->
-            <div class="options2 ">
-                <span class='label'>Playlists</span>
-            </div>
             <div class="options create {% block liked-song %}
    {% endblock %}">
                 <img height="40px" class="likedImg" src="https://t.scdn.co/images/3099b3803ad9496896c43f22fe9be8c4.png"
@@ -174,9 +180,10 @@
             </div>
             <form id='like-form'>
               {% csrf_token %}
+    {# adjust src of id="stroke" when song is in liked_songs, on refresh should condition stay (now changes); view line 470 for more #}
             <div type='submit' class="like-icon mainicons" id="like-icon">
                 <img class="heart" id="stroke"
-                    src="https://cdn.discordapp.com/attachments/768083738848133130/773960377683673198/Vector1.svg"
+                    src="https://cdn-icons-png.flaticon.com/128/17951/17951221.png"
                     alt="">
                 <img class="heart hidden" id="filled"
                     src="https://cdn.discordapp.com/attachments/768083738848133130/773960848972185650/Vector2.svg"
@@ -190,21 +197,21 @@
             <div class="playOptions">
                 <div onclick="goToStart()" class="mainicons">
                     <img class="mainicons"
-                        src="https://cdn.discordapp.com/attachments/768083738848133130/773142728145371146/skip-back.svg"
+                        src="https://cdn-icons-png.flaticon.com/128/10181/10181237.png"
                         alt=""></img></div>
 
                 <div id='playicon' class="mainicons playicon">
                     <img class="mainicons playicon"
-                        src="https://cdn.discordapp.com/attachments/768083738848133130/773142731144560640/play-circle.svg"
+                        src="https://cdn-icons-png.flaticon.com/128/5577/5577228.png"
                         alt=""></img></div>
 
                 <div id='pauseicon' class="mainicons playicon">
                     <img class="mainicons playicon"
-                        src="https://cdn.discordapp.com/attachments/768083738848133130/773873949082910751/pause-circle.svg"
+                        src="https://cdn-icons-png.flaticon.com/128/3669/3669483.png"
                         alt=""></img></div>
                 <div class="mainicons" onclick="nextSong()">
                     <img class="mainicons"
-                        src="https://cdn.discordapp.com/attachments/768083738848133130/773142729714696212/skip-forward.svg"
+                        src="https://cdn-icons-png.flaticon.com/128/15053/15053906.png"
                         alt=""></img></div>
             </div>
 
@@ -462,7 +469,15 @@ progressBar.addEventListener('input', function () {
 
 
     $(document).on('click', '#like-form', function(e){
-      e.preventDefault();
+        // change heart´s colour to red (if liked and to grey if unliked) 
+        const heart = document.getElementById("stroke");
+        // change condition to: if(song in favourites)
+        if (heart.src == "https://cdn-icons-png.flaticon.com/128/17951/17951221.png"){
+            heart.src = "https://cdn-icons-png.flaticon.com/128/2589/2589175.png";
+        } else {
+            heart.src = "https://cdn-icons-png.flaticon.com/128/17951/17951221.png";
+        }
+        e.preventDefault();
         var today = new Date();
         var dd = String(today.getDate()).padStart(2, '0');
         var mm = String(today.getMonth() + 1).padStart(2, '0');

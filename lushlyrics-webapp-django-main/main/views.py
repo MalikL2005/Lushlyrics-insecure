@@ -21,16 +21,15 @@ def signup(request):
 
 def create_user(request):
     if request.method == 'POST':
+        # create user 
         new_user = User(username=request.POST['username'], email = request.POST['email'])
         new_user.set_password(request.POST['password'])
         try: 
             new_user.save()
             print("Saved new User")
             # create user-playlist
-
-            # import playlist_user from models.py
-            playlist_user(username=request.POST['username'])
-
+            # add playlists in player.html 
+            playlist_new_user = playlist_user.objects.create(username=request.POST['username'])
             # keep user logged in after signup 
             authenticated_user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
             if authenticated_user is not None:
@@ -42,7 +41,7 @@ def create_user(request):
         return redirect("login")
 
 
-# login via Email does not work yet 
+# login using email (not username) does not work yet 
 def process_login(request):
     if request.method == 'POST':
         authenticated_user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
@@ -73,7 +72,6 @@ def playlist(request):
     try: 
         cur_user = playlist_user.objects.get(username = request.user)
     except: 
-        # return render ("page to create playlist objects")
         return render(request, "playlist.html")
     try:
       song = request.GET.get('song')
@@ -109,12 +107,15 @@ def search(request):
 
 
 def add_playlist(request):
-    cur_user = playlist_user.objects.get(username = request.user)
+    if request.method == "POST":
+        cur_user = playlist_user.objects.get(username = request.user)
 
-    if (request.POST['title'],) not in cur_user.playlist_song_set.values_list('song_title', ):
-
-        songdic = (YoutubeSearch(request.POST['title'], max_results=1).to_dict())[0]
-        song__albumsrc=songdic['thumbnails'][0]
-        cur_user.playlist_song_set.create(song_title=request.POST['title'],song_dur=request.POST['duration'],
-        song_albumsrc = song__albumsrc,
-        song_channel=request.POST['channel'], song_date_added=request.POST['date'],song_youtube_id=request.POST['songid'])
+        if (request.POST['title'],) not in cur_user.playlist_song_set.values_list('song_title', ):
+            songdic = (YoutubeSearch(request.POST['title'], max_results=1).to_dict())[0]
+            song__albumsrc=songdic['thumbnails'][0]
+            cur_user.playlist_song_set.create(song_title=request.POST['title'],song_dur=request.POST['duration'],
+            song_albumsrc = song__albumsrc,
+            song_channel=request.POST['channel'], song_date_added=request.POST['date'],song_youtube_id=request.POST['songid'])
+        else: 
+            cur_user.playlist_song_set.filter(song_title=request.POST['title']).delete()
+            print("removed sucessfully")
