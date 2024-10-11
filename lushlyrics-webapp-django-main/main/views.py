@@ -25,8 +25,12 @@ def create_user(request):
         new_user.set_password(request.POST['password'])
         try: 
             new_user.save()
-            
             print("Saved new User")
+            # create user-playlist
+
+            # import playlist_user from models.py
+            playlist_user(username=request.POST['username'])
+
             # keep user logged in after signup 
             authenticated_user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
             if authenticated_user is not None:
@@ -34,7 +38,6 @@ def create_user(request):
                 print("User is authenticated")
                 return redirect("default")
         except:
-            # no reverse match found-error 
             return redirect("signup", sign_up_failed_message="Wrong parameters, could not create user")
         return redirect("login")
 
@@ -67,13 +70,17 @@ def default(request):
 
 
 def playlist(request):
-    cur_user = playlist_user.objects.get(username = request.user)
+    try: 
+        cur_user = playlist_user.objects.get(username = request.user)
+    except: 
+        # return render ("page to create playlist objects")
+        return render(request, "playlist.html")
     try:
       song = request.GET.get('song')
       song = cur_user.playlist_song_set.get(song_title=song)
       song.delete()
     except:
-      pass
+      return HttpResponse("Hi")
     if request.method == 'POST':
         add_playlist(request)
         return HttpResponse("")

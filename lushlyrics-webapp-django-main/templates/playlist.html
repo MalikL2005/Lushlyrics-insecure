@@ -28,16 +28,16 @@ active
         <div class="playlist__name">Liked Songs</div>
         <div>{{ request.user }}<span class='grey_text'> . {{user_playlist.count}} Songs<span></div>
     </div>
-
 </div>
 
 
-<!--play button-->
-
+<!-- Buttons: play, search, sort, etc. -->
 <div class="playlist__optionbar">
-<!--     <div class="playlist__play">-->
-<!--       <img src="https://cdn.discordapp.com/attachments/768083738848133130/769476261181128734/image_1.png" alt=""></img>-->
-<!--      </div>-->
+    <button id="create_playlist">+</button>
+    <input type="search" id="search_playlist" placeholder="Search playlist"></input>
+    <div class="playlist__play">
+        <img src="https://cdn.discordapp.com/attachments/768083738848133130/769476261181128734/image_1.png" alt=""></img>
+    </div>
 
 </div>
 

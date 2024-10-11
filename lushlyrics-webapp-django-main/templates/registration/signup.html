@@ -13,6 +13,9 @@
     <title>Youttify</title>
 </head>
 <script>
+    const password_input = document.getElementById("pwd");
+    password_input.addEventListener("input", (event)=>{console.log(this.value)})
+
     function checkPassword(form) {
         const confirm_password = document.getElementById("cpwd");
         var password = document.getElementById("pwd").value;
@@ -41,7 +44,9 @@
 
             <span class='label signup-title center-align'>Sign up for free to start listening.</span>
             <label for="sign-up-username" class="label">
-                What's your name?{% if not username %}
+                What's your name?
+                    {# check if username exists in db #}
+            {% if not username %}
                 <span style="color:#f79862;">Username already exists</span>
             {% endif %}
             </label>
@@ -50,7 +55,9 @@
 
 
             <label for="sign-up-email" class="label">
-                What's your email?{% if not email %}
+                What's your email?
+                    {#check if email exists in db #}
+            {% if not email %}
                 <span style="color:#f79862;">Email already exists</span>
             {% endif %}
             </label>
@@ -61,7 +68,7 @@
             <label for="sign-up-pwd" class="label">
                 Create a password
             </label>
-            <input type="password" class="form_input" id="pwd" name="password" placeholder="Create a password."
+            <input type="password" class="form_input" id="pwd" name="password" minlength="8" maxlength="25" placeholder="Create a password."
                 required>
 
             <label for="sign-up-cpwd" class="label">
