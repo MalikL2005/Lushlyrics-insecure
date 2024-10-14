@@ -7,6 +7,10 @@ class playlist_user(models.Model):
 
     def __str__(self):
         return f'Username = {self.username}, Liked Songs = {list(self.playlist_song_set.all())}'
+    
+    def get_liked_songs(self):
+        return list(self.playlist_song_set.all())
+
 
 class playlist_song(models.Model):
     user = models.ForeignKey(playlist_user, on_delete=models.CASCADE)

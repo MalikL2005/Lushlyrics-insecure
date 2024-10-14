@@ -10,6 +10,7 @@ urlpatterns = [
     path("signup/create-user", views.create_user, name='create_user'),
     path("login/process", views.process_login, name='process_login'),
     path("playlist/", views.playlist, name='your_playlists'),
+    path("playlist/get-liked-songs", views.get_liked_songs),
     path("playlist/add-new", views.add_playlist, name="add_playlist"),
     path("search/", views.search, name='search_page'),
 ]

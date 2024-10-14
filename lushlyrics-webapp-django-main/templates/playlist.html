@@ -16,6 +16,8 @@ active
 {% endblock %}
 
 {% block main %}
+
+
 <div class="playlist__banner">
 
 	<div class="playlist__left">
@@ -34,9 +36,9 @@ active
 <!-- Buttons: play, search, sort, etc. -->
 <div class="playlist__optionbar">
     <div class="playlist__play">
-        <img src="https://cdn.discordapp.com/attachments/768083738848133130/769476261181128734/image_1.png" alt=""></img>
+        <input type="image" src="https://cdn-icons-png.flaticon.com/128/5690/5690573.png"
+            onclick='playSong("{{ user_playlist.0.song_youtube_id }}","false","true")'></button>
     </div>
-
 </div>
 
 
@@ -60,17 +62,17 @@ active
         <div class="playlist__headerTitle">
           <img class="playlist__albumimg" src="{{song.song_albumsrc}}" alt =''/>
 
-          <div class="playlist__songTitle ellipsis_one_line">
+          <div class="playlist__songTitle ellipsis_one_line" style="cursor:pointer;">
           {{song.song_title}}
           </div>
           <textarea name="song" id="song_name_delete" cols="1" rows="1">{{song.song_title}}</textarea>
 
           </div>
-        <div class="playlist__headerAlbum ellipsis_one_line">{{song.song_channel}}</div>
+                <div class="playlist__headerAlbum ellipsis_one_line"><a href="/search/"+{{song.song_channel}}>{{song.song_channel}}</a></div>
         <div class="playlist__headerDate">{{song.song_date_added}}</div>
         <div class="playlist__headerDuration">
         {{song.song_dur}}
-        <button type='submit' class="delete"><img src="https://cdn.discordapp.com/attachments/768083738848133130/777588678028951572/delete-icon-28.jpg" alt=""</button>
+                    <button type='submit' class="delete" id="delete_{{song.song_title}}" style="cursor:pointer;"><img src="https://cdn-icons-png.flaticon.com/128/9790/9790368.png"</button>
         </div>
     </div>
     </form>
@@ -79,6 +81,12 @@ active
 
 </div>
 
+<script>
+    const remove_song_from_playlist_buttons = document.querySelectorAll(".delete");
+    console.log(remove_song_from_playlist_buttons)
+    // addEventListener ("click") to each delete-song-button 
+    remove_song_from_playlist_buttons[0].addEventListener("click", (event)=>{console.log("clicked")})
+</script>
 
 {% endblock %}
 

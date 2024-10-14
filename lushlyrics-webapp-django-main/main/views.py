@@ -51,6 +51,10 @@ def process_login(request):
     return HttpResponse("wrong")
 
 
+def get_liked_songs(request):
+    return HttpResponse("This worked")
+
+
 
 def default(request):
     global CONTAINER
@@ -73,12 +77,18 @@ def playlist(request):
         cur_user = playlist_user.objects.get(username = request.user)
     except: 
         return render(request, "playlist.html")
-    try:
-      song = request.GET.get('song')
-      song = cur_user.playlist_song_set.get(song_title=song)
-      song.delete()
-    except:
-      return HttpResponse("Hi")
+    if request.method == 'GET':
+        user_playlist = playlist_user.objects.get(username = request.user)
+        users_liked_songs = user_playlist.get_liked_songs()
+        print(users_liked_songs)
+        try:
+            song = request.GET.get('song')
+            song = cur_user.playlist_song_set.get(song_title=song)
+            # song.delete()
+        except:
+            pass
+        return render(request, 'playlist.html', {'song':song,'user_playlist':users_liked_songs})
+
     if request.method == 'POST':
         add_playlist(request)
         return HttpResponse("")

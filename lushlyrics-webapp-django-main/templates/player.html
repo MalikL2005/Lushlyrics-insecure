@@ -85,7 +85,7 @@
 
     <div class="navbar">
         <div class="nav-btn-container">
-            <a href='/' class='nav-btn'>
+            <a href='/home' class='nav-btn'>
                 <svg viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path class='ops'
                         d="M448 463.746h-149.333v-149.333h-85.334v149.333h-149.333v-315.428l192-111.746 192 110.984v316.19z"
@@ -148,7 +148,7 @@
                         <div class="albumcover">
                             <img class="albumimg" src="{{ card.0 }}" alt="" srcset=""></img>
                             <div class="albumplay" onclick='playSong("{{ forloop.counter0 }}","{{ playlist.2 }}")'><img
-                                    src="https://cdn.discordapp.com/attachments/768083738848133130/769476261181128734/image_1.png"
+                                    src="https://t.scdn.co/images/3099b3803ad9496896c43f22fe9be8c4.png"
                                     alt=""></img></div>
                         </div>
                         <span class='label albumtitle bond-to-two-lines'>{{ card.1 }}</span>
@@ -392,7 +392,7 @@
         player.setVolume(v);
         vol_ico = document.getElementById('vol-icon');
         if (v == 0) {
-            vol_ico.src = 'https://cdn.discordapp.com/attachments/768083738848133130/773923517091676190/v0.png';
+            vol_ico.src = 'https://cdn-icons-png.flaticon.com/128/6996/6996058.png';
         }
         else if (v < 33) {
             vol_ico.src = 'https://cdn.discordapp.com/attachments/768083738848133130/773921824635093013/v1.png';
@@ -469,9 +469,14 @@ progressBar.addEventListener('input', function () {
 
 
     $(document).on('click', '#like-form', function(e){
+        //get liked_songs 
+        //const liked_songs = await fetch("http://localhost:8000/playlist/get-liked-songs")
+        //console.log(liked_songs)
+        //get parent-div(of clicked btn)-child id="songName"
+
         // change heart´s colour to red (if liked and to grey if unliked) 
         const heart = document.getElementById("stroke");
-        // change condition to: if(song in favourites)
+        // change condition to: if(song in favourites): remove from favourites; else: add to favourites
         if (heart.src == "https://cdn-icons-png.flaticon.com/128/17951/17951221.png"){
             heart.src = "https://cdn-icons-png.flaticon.com/128/2589/2589175.png";
         } else {
