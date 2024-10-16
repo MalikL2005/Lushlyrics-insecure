@@ -1,7 +1,7 @@
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from .models import playlist_user
+from .models import playlist_user,playlist 
 from django.urls.base import reverse
 from django.contrib.auth import authenticate,login,logout
 from youtube_search import YoutubeSearch
@@ -51,9 +51,26 @@ def process_login(request):
     return HttpResponse("wrong")
 
 
+
+
 def get_liked_songs(request):
     return HttpResponse("This worked")
 
+
+
+
+def playlist_test(request):
+    if request.method == 'GET':
+        test = playlist.objects.all()
+        user_playlist = playlist_user.objects.get(username = request.user)
+        print(user_playlist)
+        return HttpResponse(user_playlist)
+    
+    if request.method == 'POST':
+        playlist = playlist.object.get(user = request.user)
+        print(playlist)
+        # add request.song to request.playlist 
+        return HttpResponse("")
 
 
 def default(request):
@@ -61,9 +78,10 @@ def default(request):
 
 
     if request.method == 'POST':
-
         add_playlist(request)
         return HttpResponse("")
+
+
     if not request.user.is_authenticated: 
         return redirect("start")
     song = 'kSFJGEHDCrQ'
@@ -129,3 +147,5 @@ def add_playlist(request):
         else: 
             cur_user.playlist_song_set.filter(song_title=request.POST['title']).delete()
             print("removed sucessfully")
+
+

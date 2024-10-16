@@ -25,3 +25,10 @@ class playlist_song(models.Model):
       return f'Title = {self.song_title}, Date = {self.song_date_added}'
 
 
+class playlist(models.Model):
+    name = models.CharField(max_length=200, unique=True)
+    user = models.ForeignKey(playlist_user, on_delete=models.CASCADE)
+    songs_in_playlist = models.ManyToManyField(playlist_song, related_name="playlist_to_songs")
+
+    def __str__(self):
+        return f'{self.name} - user: {self.user.username}'
