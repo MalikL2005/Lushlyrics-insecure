@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -25,10 +26,10 @@ class playlist_song(models.Model):
       return f'Title = {self.song_title}, Date = {self.song_date_added}'
 
 
-class playlist(models.Model):
+class playlist_model(models.Model):
     name = models.CharField(max_length=200, unique=True)
-    user = models.ForeignKey(playlist_user, on_delete=models.CASCADE)
-    songs_in_playlist = models.ManyToManyField(playlist_song, related_name="playlist_to_songs")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    songs = models.ManyToManyField(playlist_song, related_name="playlist_to_songs", blank=True)
 
     def __str__(self):
-        return f'{self.name} - user: {self.user.username}'
+        return f'{self.name} - user: {self.user.username}, songs: {self.songs}'

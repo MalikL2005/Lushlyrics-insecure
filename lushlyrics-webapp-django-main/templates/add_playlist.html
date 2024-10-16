@@ -1,0 +1,30 @@
+{% extends 'player.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'playlist.css' %}?{% now " U " %}">
+{% endblock %}
+
+{% block home %}
+{% endblock %}
+
+{% block search %}
+{% endblock %}
+
+{% block liked-song %}
+active
+{% endblock %}
+
+{% block main %}
+    <h1>Your playlists </h1> 
+    {% for playlist in user_playlist %}
+        <p>{{playlist.name}}</p>
+    {% endfor %}
+
+    <form method="POST">
+    {% csrf_token %}
+    <input type="text" name="name" id="name">
+    <button type="submit">Submit</button>
+    </form>
+
+{% endblock %}

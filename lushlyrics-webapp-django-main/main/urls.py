@@ -11,6 +11,7 @@ urlpatterns = [
     path("login/process", views.process_login, name='process_login'),
     path("playlist/", views.playlist, name='your_playlists'),
     path("playlist/test", views.playlist_test, name='playlist_test'),
+    path("playlist/<str:title>", views.display_playlist, name='single_playlist'),
     # this is to process playlist-songs via js fetch(url) 
     path("playlist/get-liked-songs", views.get_liked_songs),
     path("playlist/add-new", views.add_playlist, name="add_playlist"),

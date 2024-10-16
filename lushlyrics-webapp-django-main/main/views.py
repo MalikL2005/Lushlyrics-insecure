@@ -1,7 +1,7 @@
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from .models import playlist_user,playlist 
+from .models import playlist_user,playlist_model 
 from django.urls.base import reverse
 from django.contrib.auth import authenticate,login,logout
 from youtube_search import YoutubeSearch
@@ -60,17 +60,30 @@ def get_liked_songs(request):
 
 
 def playlist_test(request):
+    user_playlist = playlist_model.objects.filter(user=request.user).all()
+    for pl in user_playlist:
+        print(pl)
+
     if request.method == 'GET':
-        test = playlist.objects.all()
-        user_playlist = playlist_user.objects.get(username = request.user)
         print(user_playlist)
-        return HttpResponse(user_playlist)
+        return render(request, "add_playlist.html", {"user_playlist": user_playlist})
     
     if request.method == 'POST':
-        playlist = playlist.object.get(user = request.user)
-        print(playlist)
+        print(f'user: {request.user}, PLname: {request.POST["name"]}')
+        playlist_model.objects.create(name=request.POST['name'], user=request.user)
+        print("Added new playlist")
         # add request.song to request.playlist 
-        return HttpResponse("")
+        return redirect("home")
+
+
+
+def display_playlist(request, title):
+    playlist = playlist_model.objects.filter(user=request.user, name=title).first()
+    print(playlist)
+    if playlist is not None:
+        return HttpResponse(playlist)
+    return HttpResponse("No such playlist")
+
 
 
 def default(request):
