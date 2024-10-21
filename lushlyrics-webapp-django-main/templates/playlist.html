@@ -68,13 +68,13 @@ active
           <textarea name="song" id="song_name_delete" cols="1" rows="1">{{song.song_title}}</textarea>
 
           </div>
-                <div class="playlist__headerAlbum ellipsis_one_line"><a href="/search/"+{{song.song_channel}}>{{song.song_channel}}</a></div>
-        <div class="playlist__headerDate">{{song.song_date_added}}</div>
-        <div class="playlist__headerDuration">
-        {{song.song_dur}}
-                    <button type='submit' class="delete" id="delete_{{song.song_title}}" style="cursor:pointer;"><img src="https://cdn-icons-png.flaticon.com/128/9790/9790368.png"</button>
-        </div>
-    </div>
+            <div class="playlist__headerAlbum ellipsis_one_line"><a href="/search/"+{{song.song_channel}}>{{song.song_channel}}</a></div>
+                <div class="playlist__headerDate">{{song.song_date_added}}</div>
+                <div class="playlist__headerDuration">
+                    {{song.song_dur}}
+                    <button onClick="delete_song_from_liked_songs(this)" class="delete" id="delete_{{song.song_title}}" style="cursor:pointer;"><img src="https://cdn-icons-png.flaticon.com/128/9790/9790368.png"</button>
+                </div>
+            </div>
     </form>
     {% endfor %}
     </div>
@@ -82,10 +82,25 @@ active
 </div>
 
 <script>
-    const remove_song_from_playlist_buttons = document.querySelectorAll(".delete");
-    console.log(remove_song_from_playlist_buttons)
-    // addEventListener ("click") to each delete-song-button 
-    remove_song_from_playlist_buttons[0].addEventListener("click", (event)=>{console.log("clicked")})
+    //const delete_song_buttons = document.getElementsByClassName("delete")
+    //console.log(delete_song_buttons)
+    //delete_song_buttons.addEventListener("click", ()=>{console.log("clicked delete btn")})
+    function delete_song_from_liked_songs(btn_obj){
+        const id = btn_obj.id; 
+        var title = id //remove "delete_"
+        console.log(title)
+        //var current_url = window.location.href;
+        //console.log(current_url);
+        var url = "http://localhost:8000/playlist/remove_song/"+id
+        //missing Access-Control-Allow-Origin-header
+        //see "https://stackoverflow.com/questions/62875723/how-to-send-an-access-control-allow-origin-header-using-django-3"
+
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", url, false ); // false for synchronous request
+        xmlHttp.send( null );
+        console.log(xmlHttp.responseText);
+// view-url: /playlist/remove_song/song_title
+    }
 </script>
 
 {% endblock %}

@@ -13,7 +13,7 @@ urlpatterns = [
     path("playlist/test", views.playlist_test, name='playlist_test'),
     path("playlist/<str:title>", views.display_playlist, name='single_playlist'),
     # this is to process playlist-songs via js fetch(url) 
-    path("playlist/get-liked-songs", views.get_liked_songs),
+    path("playlist/remove_song/<str:song_title>", views.delete_song_from_liked_songs),
     path("playlist/add-new", views.add_playlist, name="add_playlist"),
     path("search/", views.search, name='search_page'),
 ]

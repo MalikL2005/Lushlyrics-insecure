@@ -53,8 +53,16 @@ def process_login(request):
 
 
 
-def get_liked_songs(request):
-    return HttpResponse("This worked")
+def delete_song_from_liked_songs(request, song_title):
+    print("reached remove_song_view")
+    print(request.user)
+    if request.method == 'GET':
+        #liked_songs = playlist_user.objects.get(username = request.user)
+        #remove song
+#        remove_song = playlist_user.objects.filter(username=request.user, song=song_title).delete()
+        print(song_title)
+        #print(liked_songs)
+        return HttpResponse(song_title)
 
 
 
